@@ -8,7 +8,7 @@
 # Steps to Setup
 ## 1. Clone the application
 ```
- git clone https://gitlab.com/dogukanyilmaz95/Spring-boot-example.git
+ git clone https://github.com/dogukanyilmaz95/Spring-boot-example.git
 ```
 
 ## 2. Create Mysql database
