@@ -28,14 +28,14 @@ public class UserController {
 
     @CrossOrigin
     @PostMapping("/getById")
-    public User getById(@RequestParam Map<String, String> data) {
+    public User getById(@RequestBody Map<String, String> data) {
         int id = Integer.valueOf(data.get("id"));
         return userDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
     }
 
     @CrossOrigin
     @PostMapping("/create")
-    public User create(@RequestParam Map<String, String> data) {
+    public ResponseEntity<?> create(@RequestBody Map<String, String> data) {
         String name = data.get("name");
         String surname = data.get("surname");
         String email = data.get("email");
@@ -45,13 +45,14 @@ public class UserController {
         user.setName(name);
         user.setEmail(email);
         user.setSurname(surname);
+        userDAO.save(user);
 
-        return userDAO.save(user);
+        return ResponseEntity.ok().body(user);
     }
 
     @CrossOrigin
     @PutMapping("/")
-    public User update(@RequestParam Map<String, String> data) {
+    public User update(@RequestBody Map<String, String> data) {
         int id = Integer.valueOf(data.get("id"));
         String name = data.get("name");
         String surname = data.get("surname");
@@ -66,9 +67,10 @@ public class UserController {
 
     @CrossOrigin
     @DeleteMapping("/")
-    public ResponseEntity<?> delete(@RequestParam Map<String, String> data) {
+    public ResponseEntity<?> delete(@RequestBody Map<String, String> data) {
         int id = Integer.valueOf(data.get("id"));
         User user = userDAO.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
+        userDAO.delete(user);
 
         return ResponseEntity.ok().build();
     }
